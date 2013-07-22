@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+    <!-- Set the viewport width to device width for mobile -->
+    <meta name="viewport" content="width=device-width" />
+  
+	<title>IBM Social Business Toolkit</title>
+    <!-- Icons -->
+	<link href="/images/sbt.png" rel="shortcut icon">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- CSS -->
+    <link href="/css/bootstrap-sbt.css" rel="stylesheet" media="screen">
+    <link href="/css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
+    <link href="/css/j2ee-sample.css" rel="stylesheet" media="screen">
+    <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="screen">
+  
+    <!-- Scripts -->
+	<script type="text/javascript">
+	var djConfig = {
+		async: false,
+    	parseOnLoad: true,
+    	locale: 'en',
+    	paths: {'mysocial':'/samples/MySocial'}
+	};
+	</script>
+	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/dojo/1.8.0/dojo/dojo.js"></script>
+	<script type="text/javascript" src="/library?lib=dojo&ver=1.8.0"></script>
+</head>
+
+<body class="loggedout">
+	<div class="navbar navbar-inverse">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="brand" href="index.html">My Social WebApp</a>
+				<div id="logout" class="">
+    			    <ul class="nav pull-right hidden-loggedout">
+                        <li>Logout</li>
+                    </ul> 
+				</div>
+			</div>
+		</div>
+	</div>
+    <!-- End Nav -->
+    <div id="login" class="leadspace container-fluid hidden-loggedin">
+        <h1>My Social WebApp</h1>
+        <div class="btn btn-large btn-primary" >Log in using IBM SmartCloud</div>
+    </div>
+    <div class="intro container hidden-loggedin">
+        <h2>Developed using IBM Social Business Toolkit</h2>
+        <p>This is a J2EE sample app developed with IBM Social Business Toolkit. Learn <a href="#">how to edit this app</a> using the IBMSBT Console</p>
+    </div>
+    
+    <div class="leadspace container-fluid hidden-loggedout">
+        <div class="greeting container">
+            <div id="loader">Loading your profile information...</div>
+            <div id="loaded" class="hidden-all">
+                <div id="myProfileDiv">
+                </div> 
+                <a href="#" class="btn btn-primary btn-large">Learn how to edit this app</a>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/template" id="myapp.MyProfileTmpl">
+        <div>
+            <img id="myPhoto">
+        	<p>Hi, <strong><span id="myName"></span></strong>! <br>Welcome to My Social WebApp.</p>
+		</div>  
+    </script>
+    
+    <script type="text/template" id="myapp.MyColleaguesTmpl">
+        <li>
+            <a href="" title="${tooltip}" data-dojo-attach-event="onclick: handleClick">
+                <img src="${photoUrl}" width="64" height="64" class="img-polaroid" title="${title}" alt="${title}">
+           </a>
+        </li>
+	</script>
+    
+    <script type="text/template" id="myapp.MyCommunitiesTmpl">
+        <li>
+        	<a href="" target="_self" title="${tooltip}" data-dojo-attach-event="onclick: handleClick">${title}</a></h6>
+    	</li>
+	</script>
+
+	<script type="text/template" id="myapp.MyFilesTmpl">
+    	<li>
+    	    <a href="" target="_self" title="${tooltip}" data-dojo-attach-event="onclick: handleClick">${title}</a></h6>
+    	</li>
+	</script>
+    
+    <div class="examples container hidden-loggedout">
+        <h2>Examples built with the Social Business Toolkit</h2>
+        <div class="row">
+            <div class="span3">
+                <h3><a href="#linkToC4MyNetworkPage">My Network</a></h3>
+                <ul id="myColleaguesDiv" class="network">
+                </ul>
+            </div>
+            <div class="span3">
+                <h3><a href="#linkToC4MyCommunitiesPage">My Communities</a></h3>
+                <ul id="myCommunitiesDiv" class="communities list">
+                </ul>
+            </div>
+            <div class="span3">
+                <h3><a href="#linkToC4MyFilesPage">My Files</a></h3>
+                <ul id="myFilesDiv" class="files list">
+                </ul>
+            </div>
+            <!--<div class="span3">
+                <h3>Sharing</h3>
+                <a href="#" class="btn">Post to Activity Stream</a>
+            </div>-->
+        </div>
+        <hr>
+    	<footer>
+			<p>&copy; My Social Web App 2013</p>
+		</footer>
+    </div>
+
+	<script type="text/javascript">
+    require(["dojo/on", "sbt/dom", "mysocial/widgets/MyProfile", 
+          "sbt/smartcloud/controls/profiles/ColleagueGrid", 
+          "sbt/connections/controls/communities/CommunityGrid", 
+          "sbt/connections/controls/files/FileGrid" ],
+		function(on, dom, MyProfile, ColleagueGrid, CommunityGrid, FileGrid) {
+			function doLogin(myProfile){
+    			myProfile.login();
+	            dom.byId("myProfileDiv").appendChild(myProfile.domNode);
+	            myProfile.addListener(function(profile) {
+					// show my colleages
+				    createColleagueGrid(dom, profile, ColleagueGrid);
+					
+				    // show my communities
+			        createCommunityGrid(dom, CommunityGrid);
+				    
+			        // show my files
+			        createFileGrid(dom, FileGrid);
+				});
+			}
+    
+			try {
+				var self = this;
+				var myProfile = new MyProfile();
+				on(dom.byId("logout"), "click", function(evt){
+					myProfile.logout();
+		        });
+				on(dom.byId("login"), "click", function(evt){
+					doLogin(myProfile);
+		        });
+				
+				if (myProfile.isAuthenticated()) {
+					doLogin(myProfile);
+				}
+            } catch (err) {
+				alert(err);
+			}
+		}
+	);
+	
+	function createColleagueGrid(dom, profile, ColleagueGrid) {
+	    var colleagueGrid = new ColleagueGrid({
+	        email: profile.getEmail(),
+	        hideViewAll: false,
+            type: "friends"
+	    });
+	    colleagueGrid.renderer.containerClass = "row-fluid";
+	    colleagueGrid.renderer.template =  dom.byId("myapp.MyColleaguesTmpl").innerHTML;
+
+	    // create custom action
+	    colleagueGrid.profileAction = {
+	        getTooltip : function(item) {
+	        	return string.substitute("Display details for ${title}", { title : item.getValue("title") });
+	        },
+
+	        execute : function(item,opts,event) {
+	            var str =
+	                "uid: " + item.getValue("uid") + "\n" +
+	                "title: " + item.getValue("title") + "\n" +
+	                "fnUrl: " + item.getValue("fnUrl");
+	        }
+	    };
+
+	    dom.byId("myColleaguesDiv").appendChild(colleagueGrid.domNode);
+	    colleagueGrid.update();
+	}
+	
+	function createCommunityGrid(dom, CommunityGrid) {
+        var communityGrid = new CommunityGrid({
+            type: "my",
+            hidePager: true,
+            hideSorter: true
+        });
+        communityGrid.renderer.template = dom.byId("myapp.MyCommunitiesTmpl").innerHTML;
+        communityGrid.renderer.tableClass = "table table-striped";
+		
+	    // create custom action
+	    communityGrid.communityAction = {
+	        getTooltip : function(item) {
+	        	return string.substitute("Display details for ${title}", { title : item.getValue("title") });
+	        },
+
+	        execute : function(item,opts,event) {
+	            var str =
+	                "communityUuid: " + item.getValue("communityUuid") + "\n" +
+	                "title: " + item.getValue("title") + "\n" +
+	                "communityUrl: " + item.getValue("communityUrl");
+	            alert(str);
+	        }
+	    };
+
+	    dom.byId("myCommunitiesDiv").appendChild(communityGrid.domNode);
+        communityGrid.update();		
+	}
+	
+	function createFileGrid(dom, FileGrid) {
+        var fileGrid = new FileGrid({
+	         type : "library",
+		     hidePager: true,
+		     hideSorter: true
+	    });
+       fileGrid.renderer.template = dom.byId("myapp.MyFilesTmpl").innerHTML;
+       fileGrid.renderer.tableClass = "table table-striped";
+       
+       // create custom action
+       fileGrid.fileAction = {
+        	getTooltip : function(item) {
+        		return string.substitute("Display details for ${title}", { title : item.getValue("title") });
+        	},
+
+        	execute : function(item,opts,event) {
+	            var str =
+	                "uuid: " + item.getValue("uuid") + "\n" +
+	                "title: " + item.getValue("title") + "\n" +
+	                "downloadUrl: " + item.getValue("downloadUrl");
+	            alert(str);
+        	}
+        };
+
+       
+	   dom.byId("myFilesDiv").appendChild(fileGrid.domNode);
+	   fileGrid.update();
+	}
+	</script>
+
+</body>
+</html>

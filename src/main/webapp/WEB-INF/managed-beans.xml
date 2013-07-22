@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<faces-config>
+    <!-- Credential store physical implementation -->
+	<managed-bean>
+		<managed-bean-name>CredStore</managed-bean-name>
+		<managed-bean-class>com.ibm.sbt.security.credential.store.MemoryStore</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+
+	<!-- Default Environment -->
+	<managed-bean>
+		<managed-bean-name>defaultEnvironment</managed-bean-name>
+		<managed-bean-class>com.ibm.sbt.jslibrary.SBTEnvironment</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+		<managed-property>
+			<property-name>endpoints</property-name>
+			<value>smartcloudOA2:connections,smartcloudOA2:smartcloud,smartcloudOA2</value>
+		</managed-property>
+	</managed-bean>
+	
+	
+	<!--  SmartCloud OAuth 2.0 -->    
+	<managed-bean>
+		<managed-bean-name>smartcloudOA2</managed-bean-name>
+		<managed-bean-class>com.ibm.sbt.services.endpoints.SmartCloudOAuth2Endpoint</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<!-- Endpoint URL -->
+		<managed-property>
+			<property-name>url</property-name>
+			<value>%{smartcloudOA2.url}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>apiVersion</property-name>
+			<value>%{smartcloudOA2.apiVersion}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>serviceName</property-name>
+			<value>%{smartcloudOA2.serviceName}</value>
+		</managed-property>
+		<!-- OAuth parameters -->
+		<managed-property>
+			<property-name>appId</property-name>
+			<value>%{smartcloudOA2.appId}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>consumerSecret</property-name>
+			<value>%{smartcloudOA2.consumerSecret}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>consumerKey</property-name>
+			<value>%{smartcloudOA2.consumerKey}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>authorizationURL</property-name>
+			<value>%{smartcloudOA2.authorizationURL}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>accessTokenURL</property-name>
+			<value>%{smartcloudOA2.accessTokenURL}</value>
+		</managed-property>	
+				<!-- Trust the connection -->
+		<managed-property>
+			<property-name>forceTrustSSLCertificate</property-name>
+			<value>true</value>
+		</managed-property>
+	</managed-bean>
+  
+</faces-config>
