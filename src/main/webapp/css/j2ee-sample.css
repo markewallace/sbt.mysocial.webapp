@@ -71,7 +71,7 @@ body.loggedin .hidden-loggedout {
   background-color: #eee;
 }
 /*.login-btn {
-  background: #049cdb url(/images/leadspace-bg.gif) repeat;
+  background: #049cdb url(images/leadspace-bg.gif) repeat;
   padding: 40px 20px;
   text-align: center;
 }*/
@@ -83,7 +83,7 @@ body.loggedin .hidden-loggedout {
 }
 .leadspace {
   box-shadow: 0 -30px 20px -15px #002A49 inset;
-  background: #003f6d url(/images/leadspace-bg.gif) repeat;
+  background: #003f6d url(images/leadspace-bg.gif) repeat;
   color: #fff;
   padding: 60px 20px;
   margin-bottom: 30px;
