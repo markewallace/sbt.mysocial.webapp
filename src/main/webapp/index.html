@@ -1,171 +1,192 @@
 <!DOCTYPE html>
-<!--[if IE 8]>         <html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html lang="en">
 <head>
 	<meta charset="utf-8">
-    <!-- Set the viewport width to device width for mobile -->
-    <meta name="viewport" content="width=device-width" />
-  
-	<title>IBM Social Business Toolkit</title>
-    <!-- Icons -->
+	<title>My Social WebApp</title>
 	<link href="images/sbt.png" rel="shortcut icon">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    
-    <!-- CSS -->
-    <link href="css/bootstrap-sbt.css" rel="stylesheet" media="screen">
-    <link href="css/bootstrap-responsive.min.css" rel="stylesheet" media="screen">
-    <link href="css/j2ee-sample.css" rel="stylesheet" media="screen">
-    <link href="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" media="screen">
-  
-    <!-- Scripts -->
+	
 	<script type="text/javascript">
-	var djConfig = {
-		async: false,
-    	parseOnLoad: true,
-    	locale: 'en',
-    	paths: {'mysocial':'/samples/MySocial'}
+	dojoConfig= {
+	       parseOnLoad: true,
+	       async: true,
+	       baseUrl: "../",
+	       paths: { 
+	    	   "sbt/_config" : "/mysocial.webapp/library?lib=dojo&ver=1.8.0&debug=true&layer=true&noext",
+	    	   "mysocial" : "/mysocial.webapp/js"
+	       },
+	       deps: [
+	            "//cdnjs.cloudflare.com/ajax/libs/sbt/1.0.0.20140113-0420/sbt-core-dojo-amd.js"
+	       ]
 	};
 	</script>
+
 	<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/dojo/1.8.0/dojo/dojo.js"></script>
-	<script type="text/javascript" src="library?lib=dojo&ver=1.8.0"></script>
+	
+	<link rel="stylesheet" type="text/css" title="Style" href="//ajax.googleapis.com/ajax/libs/dojo/1.8.0/dojo/resources/dojo.css">
+	<link rel="stylesheet" type="text/css" title="Style" href="//ajax.googleapis.com/ajax/libs/dojo/1.8.0/dijit/themes/claro/claro.css">
+
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+	<style type="text/css">
+	body {
+		padding-top: 60px;
+		padding-bottom: 40px;
+	}
+	</style>
+	
+	<!-- SmartCloud Navigation Bar -->
+	<!-- 
+	<link rel="stylesheet" href="https://apps.na.collabserv.com/theming/theme/css/3" type="text/css" />
+ 	-->
 </head>
 
-<body class="loggedout">
-	<div class="navbar navbar-inverse">
+<body class="lotusui30_body">
+	<!-- Standard Navigation Bar -->
+	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> 
+					<span class="icon-bar"></span> 
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</a> 
 				<a class="brand" href="index.html">My Social WebApp</a>
-				<div id="logout" class="">
-    			    <ul class="nav pull-right hidden-loggedout">
-                        <li>Logout</li>
-                    </ul> 
-				</div>
+				<div class="nav-collapse collapse" id="navBar"></div>
 			</div>
 		</div>
 	</div>
-    <!-- End Nav -->
-    <div id="login" class="leadspace container-fluid hidden-loggedin">
-        <h1>My Social WebApp</h1>
-        <div class="btn btn-large btn-primary" >Log in using IBM SmartCloud</div>
-    </div>
-    <div class="intro container hidden-loggedin">
-        <h2>Developed using IBM Social Business Toolkit</h2>
-        <p>This is a J2EE sample app developed with IBM Social Business Toolkit. Learn <a href="#">how to edit this app</a> using the IBMSBT Console</p>
-    </div>
-    
-    <div class="leadspace container-fluid hidden-loggedout">
-        <div class="greeting container">
-            <div id="loader">Loading your profile information...</div>
-            <div id="loaded" class="hidden-all">
-                <div id="myProfileDiv">
-                </div> 
-                <a href="#" class="btn btn-primary btn-large">Learn how to edit this app</a>
-            </div>
-        </div>
-    </div>
-    
-    <script type="text/template" id="myapp.MyProfileTmpl">
-        <div>
-            <img id="myPhoto">
-        	<p>Hi, <strong><span id="myName"></span></strong>! <br>Welcome to My Social WebApp.</p>
-		</div>  
-    </script>
-    
-    <script type="text/template" id="myapp.MyColleaguesTmpl">
-        <li>
-            <a href="" title="${tooltip}" data-dojo-attach-event="onclick: handleClick">
-                <img src="${photoUrl}" width="64" height="64" class="img-polaroid" title="${title}" alt="${title}">
-           </a>
-        </li>
+	<!-- SmartCloud Navigation Bar -->
+	<!-- 
+	<div class="lotusui30 lotusui30_fonts scloud3" style="font-size: 12px">
+		<script src="https://apps.na.collabserv.com/manage/navbar/banner/smartcloudExt?oneui=3"></script>
+	</div>
+	-->
+
+	<div class="container">
+		<div class="row">
+			<div class="span8">
+				<div id="myProfileDiv"></div>
+			</div>
+			<div class="span4">
+				<div class="btn-toolbar">
+					<div id="shareMyAppDiv">
+						<button class="btn" style="display: none;"><img src="images/sbt.png"/> Share My App</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="span12">
+				<img src="images/banner.jpg"/>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="span12">
+				<h2>Examples built with the Social Business Toolkit SDK</h2>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="span3">
+				<h4>My Colleagues</h4>
+				<div id="myColleaguesDiv"></div>
+			</div>
+			<div class="span4">
+				<h4>My Communities</h4>
+				<div id="myCommunitiesDiv"></div>
+			</div>
+			<div class="span3">
+				<h4>My Files</h4>
+				<div id="myFilesDiv"></div>
+			</div>
+		</div>
+
+		<hr/>
+
+		<footer>
+			<p>&copy; My Social Web App 2014</p>
+		</footer>
+	</div>
+
+	<script type="text/template" id="myapp.MyProfileTmpl">
+	<div>
+		<div style="float:left;border:10px solid white;">
+			<div>
+				<img width="128" height="128" src="" id="photo" class="img-polaroid" style="display:none;"></img>
+			</div>
+		</div>
+		<div style="border:10px solid white;">
+			<div>
+				<h4><span id="name">Loading your profile information...</span></h4>
+			</div>
+			<div>
+				<h5><span id="jobTitle"></span></h5>
+			</div>
+			<div>
+				<h5><span id="department"><span></h5>
+			</div>
+		</div>
+	</div>
 	</script>
-    
-    <script type="text/template" id="myapp.MyCommunitiesTmpl">
-        <li>
-        	<a href="" target="_self" title="${tooltip}" data-dojo-attach-event="onclick: handleClick">${title}</a></h6>
-    	</li>
+
+	<script type="text/template" id="myapp.MyColleaguesTmpl">
+	<div role="presentation" class="span3" style="padding: 0px 5px 4px 0px;">
+        <a href="" title="${tooltip}" data-dojo-attach-event="onclick: handleClick">
+           	<img src="${photoUrl}" width="64" height="64" class="img-polaroid" title="${name}" alt="${name}">
+        </a>
+	</div>
+	</script>
+
+	<script type="text/template" id="myapp.MyCommunitiesTmpl">
+	<tr class="">
+		<td class="">
+			<h6><a href="" target="_self" title="${tooltip}" data-dojo-attach-event="onclick: handleClick">${title}</a></h6>
+		</td>
+	</tr>
 	</script>
 
 	<script type="text/template" id="myapp.MyFilesTmpl">
-    	<li>
-    	    <a href="" target="_self" title="${tooltip}" data-dojo-attach-event="onclick: handleClick">${title}</a></h6>
-    	</li>
+	<tr class="">
+		<td class="">
+			<h6><a href="" target="_self" title="${tooltip}" data-dojo-attach-event="onclick: handleClick">${title}</a></h6>
+		</td>
+	</tr>
 	</script>
-    
-    <div class="examples container hidden-loggedout">
-        <h2>Examples built with the Social Business Toolkit</h2>
-        <div class="row">
-            <div class="span3">
-                <h3><a href="#linkToC4MyNetworkPage">My Network</a></h3>
-                <ul id="myColleaguesDiv" class="network">
-                </ul>
-            </div>
-            <div class="span3">
-                <h3><a href="#linkToC4MyCommunitiesPage">My Communities</a></h3>
-                <ul id="myCommunitiesDiv" class="communities list">
-                </ul>
-            </div>
-            <div class="span3">
-                <h3><a href="#linkToC4MyFilesPage">My Files</a></h3>
-                <ul id="myFilesDiv" class="files list">
-                </ul>
-            </div>
-            <!--<div class="span3">
-                <h3>Sharing</h3>
-                <a href="#" class="btn">Post to Activity Stream</a>
-            </div>-->
-        </div>
-        <hr>
-    	<footer>
-			<p>&copy; My Social Web App 2013</p>
-		</footer>
-    </div>
 
 	<script type="text/javascript">
-    require(["dojo/on", "sbt/dom", "mysocial/widgets/MyProfile", 
-          "sbt/smartcloud/controls/profiles/ColleagueGrid", 
-          "sbt/connections/controls/communities/CommunityGrid", 
-          "sbt/connections/controls/files/FileGrid" ],
-		function(on, dom, MyProfile, ColleagueGrid, CommunityGrid, FileGrid) {
-			function doLogin(myProfile){
-    			myProfile.login();
-	            dom.byId("myProfileDiv").appendChild(myProfile.domNode);
-	            myProfile.addListener(function(profile) {
-					// show my colleages
-				    createColleagueGrid(dom, profile, ColleagueGrid);
-					
-				    // show my communities
-			        createCommunityGrid(dom, CommunityGrid);
-				    
-			        // show my files
-			        createFileGrid(dom, FileGrid);
-				});
-			}
-    
-			try {
-				var self = this;
-				var myProfile = new MyProfile();
-				on(dom.byId("logout"), "click", function(evt){
-					myProfile.logout();
-		        });
-				on(dom.byId("login"), "click", function(evt){
-					doLogin(myProfile);
-		        });
+	require([ "sbt/dom", "sbt/config", "mysocial/widgets/MyProfile", 
+	          "sbt/smartcloud/controls/profiles/ColleagueGrid",
+	          "sbt/connections/controls/profiles/ColleagueGrid", 
+	          "sbt/connections/controls/communities/CommunityGrid", 
+	          "sbt/connections/controls/files/FileGrid" ],
+		function(dom, config, MyProfile, ColleagueGridSC, ColleagueGridOP, CommunityGrid, FileGrid) {
+			var myProfile = new MyProfile();
+			dom.byId("myProfileDiv").appendChild(myProfile.domNode);
+			
+			myProfile.addListener(function(profile) {
+				// show my colleages
+				var endpoint = config.findEndpoint("connections");
+			    createColleagueGrid(dom, profile, endpoint.isSmartCloud ? ColleagueGridSC : ColleagueGridOP);
 				
-				if (myProfile.isAuthenticated()) {
-					doLogin(myProfile);
-				}
-            } catch (err) {
-				alert(err);
-			}
+			    // show my communities
+		        createCommunityGrid(dom, CommunityGrid);
+			    
+		        // show my files
+		        createFileGrid(dom, FileGrid);
+			});
 		}
 	);
 	
 	function createColleagueGrid(dom, profile, ColleagueGrid) {
 	    var colleagueGrid = new ColleagueGrid({
-	        email: profile.getEmail(),
-	        hideViewAll: false,
-            type: "friends"
+	    	endpoint: "connections",
+	        userid: profile.getUserid(),
+	        hideViewAll: true
 	    });
 	    colleagueGrid.renderer.containerClass = "row-fluid";
 	    colleagueGrid.renderer.template =  dom.byId("myapp.MyColleaguesTmpl").innerHTML;
@@ -181,6 +202,7 @@
 	                "uid: " + item.getValue("uid") + "\n" +
 	                "title: " + item.getValue("title") + "\n" +
 	                "fnUrl: " + item.getValue("fnUrl");
+	            alert(str);
 	        }
 	    };
 
@@ -218,7 +240,7 @@
 	
 	function createFileGrid(dom, FileGrid) {
         var fileGrid = new FileGrid({
-	         type : "library",
+	         type : "myFiles",
 		     hidePager: true,
 		     hideSorter: true
 	    });

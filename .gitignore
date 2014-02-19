@@ -1,5 +1,2 @@
 /build
-target/
-
-#Cloud 9 revisions folder
-.c9revisions/
+/target

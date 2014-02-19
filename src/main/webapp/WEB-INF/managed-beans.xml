@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <faces-config>
-    <!-- Credential store physical implementation -->
+	<!-- Credential Store In-Memory Implementation -->
 	<managed-bean>
 		<managed-bean-name>CredStore</managed-bean-name>
 		<managed-bean-class>com.ibm.sbt.security.credential.store.MemoryStore</managed-bean-class>
@@ -14,17 +14,85 @@
 		<managed-bean-scope>application</managed-bean-scope>
 		<managed-property>
 			<property-name>endpoints</property-name>
-			<value>smartcloudOA2:connections,smartcloudOA2:smartcloud,smartcloudOA2</value>
+			<value>connectionsBasic:connections</value>
 		</managed-property>
 	</managed-bean>
 	
-	
-	<!--  SmartCloud OAuth 2.0 -->    
+	<!-- Connections Basic -->
+	<managed-bean>
+		<managed-bean-name>connectionsBasic</managed-bean-name>
+		<managed-bean-class>com.ibm.sbt.services.endpoints.ConnectionsBasicEndpoint</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>url</property-name>
+			<value>%{connectionsBasic.url}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>apiVersion</property-name>
+			<value>%{connectionsBasic.apiVersion}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>credentialStore</property-name>
+			<value>CredStore</value>
+		</managed-property>
+		<managed-property>
+			<property-name>authenticationPage</property-name>
+			<value>/sbt/loginForm.html?endpoint=connections</value>
+		</managed-property>
+		<managed-property>
+			<property-name>authenticationService</property-name>
+			<value>communities/service/atom/communities/my</value>
+		</managed-property>
+		<managed-property>
+			<property-name>forceTrustSSLCertificate</property-name>
+			<value>true</value>
+		</managed-property>
+	</managed-bean>
+    
+	<!--  SmartCloud OAuth 1.0 -->	
+	<managed-bean>
+		<managed-bean-name>smartcloudOA1</managed-bean-name>
+		<managed-bean-class>com.ibm.sbt.services.endpoints.SmartCloudOAuthEndpoint</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>serviceName</property-name>
+			<value>%{smartcloudOA1.name}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>url</property-name>
+			<value>%{smartcloudOA1.url}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>apiVersion</property-name>
+			<value>%{smartcloudOA1.apiVersion}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>appName</property-name>
+			<value>%{smartcloudOA1.appName}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>OAuthKey</property-name>
+			<value>%{smartcloudOA1.OAuthKey}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>OAuthSecret</property-name>
+			<value>%{smartcloudOA1.OAuthSecret}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>forceTrustSSLCertificate</property-name>
+			<value>true</value>
+		</managed-property>
+		<managed-property>
+			<property-name>credentialStore</property-name>
+			<value>CredStore</value>
+		</managed-property>
+	</managed-bean>
+	 
+	<!--  Smart Cloud OAuth 2.0 -->	 
 	<managed-bean>
 		<managed-bean-name>smartcloudOA2</managed-bean-name>
 		<managed-bean-class>com.ibm.sbt.services.endpoints.SmartCloudOAuth2Endpoint</managed-bean-class>
 		<managed-bean-scope>session</managed-bean-scope>
-		<!-- Endpoint URL -->
 		<managed-property>
 			<property-name>url</property-name>
 			<value>%{smartcloudOA2.url}</value>
@@ -34,35 +102,25 @@
 			<value>%{smartcloudOA2.apiVersion}</value>
 		</managed-property>
 		<managed-property>
-			<property-name>serviceName</property-name>
-			<value>%{smartcloudOA2.serviceName}</value>
-		</managed-property>
-		<!-- OAuth parameters -->
-		<managed-property>
-			<property-name>appId</property-name>
-			<value>%{smartcloudOA2.appId}</value>
+			<property-name>appName</property-name>
+			<value>%{smartcloudOA2.appName}</value>
 		</managed-property>
 		<managed-property>
-			<property-name>consumerSecret</property-name>
-			<value>%{smartcloudOA2.consumerSecret}</value>
+			<property-name>clientID</property-name>
+			<value>%{smartcloudOA2.clientID}</value>
 		</managed-property>
 		<managed-property>
-			<property-name>consumerKey</property-name>
-			<value>%{smartcloudOA2.consumerKey}</value>
+			<property-name>clientSecret</property-name>
+			<value>%{smartcloudOA2.clientSecret}</value>
 		</managed-property>
-		<managed-property>
-			<property-name>authorizationURL</property-name>
-			<value>%{smartcloudOA2.authorizationURL}</value>
-		</managed-property>
-		<managed-property>
-			<property-name>accessTokenURL</property-name>
-			<value>%{smartcloudOA2.accessTokenURL}</value>
-		</managed-property>	
-				<!-- Trust the connection -->
 		<managed-property>
 			<property-name>forceTrustSSLCertificate</property-name>
 			<value>true</value>
 		</managed-property>
+		<managed-property>
+			<property-name>credentialStore</property-name>
+			<value>CredStore</value>
+		</managed-property>
 	</managed-bean>
-  
+
 </faces-config>
